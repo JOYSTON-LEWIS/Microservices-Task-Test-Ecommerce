@@ -6,14 +6,28 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3004;
+
+// Load from environment
+const port = process.env.PORT;
+const mongoBase = process.env.MONGO_DB_ATLAS_URL;
+const dbName = process.env.DB_NAME;
+
+// Validate essential env vars
+if (!port || !mongoBase || !dbName) {
+  console.error("Missing required environment variables. Please check PORT, MONGO_DB_ATLAS_URL, and DB_NAME.");
+  process.exit(1);
+}
+
+const mongoURI = `${mongoBase}/${dbName}`;
+
+const PORT = port;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ecommerce_orders', {
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

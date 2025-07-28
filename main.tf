@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "ecom_instance" {
-  count                  = 3
+  count                  = 2
   ami                    = "ami-0f918f7e67a3323f0"
   instance_type          = "t3.medium"
   subnet_id              = "subnet-07d68578b0b977526"
